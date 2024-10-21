@@ -1,0 +1,169 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    // Dictionary to store key-value pairs
+    static Dictionary<string, string> dictionary = new Dictionary<string, string>();
+
+    static void Main(string[] args)
+    {
+        bool running = true;
+
+        while (running)
+        {
+            // Display menu
+            DisplayMenu();
+
+            // Get user input
+            string choice = Console.ReadLine();
+
+            // Switch statement for user choices
+            switch (choice)
+            {
+                case "1":
+                    PopulateDictionary();
+                    break;
+                case "2":
+                    DisplayDictionaryContents();
+                    break;
+                case "3":
+                    RemoveKey();
+                    break;
+                case "4":
+                    AddNewKeyValue();
+                    break;
+                case "5":
+                    AddValueToExistingKey();
+                    break;
+                case "6":
+                    SortKeys();
+                    break;
+                case "7":
+                    running = false;
+                    Console.WriteLine("Exiting the program.");
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice, please try again.");
+                    break;
+            }
+        }
+    }
+
+    // Function to display menu
+    static void DisplayMenu()
+    {
+        Console.WriteLine("\nChoose an option:");
+        Console.WriteLine("1. Populate the Dictionary");
+        Console.WriteLine("2. Display Dictionary Contents");
+        Console.WriteLine("3. Remove a Key");
+        Console.WriteLine("4. Add a New Key and Value");
+        Console.WriteLine("5. Add a Value to an Existing Key");
+        Console.WriteLine("6. Sort the Keys");
+        Console.WriteLine("7. Exit");
+        Console.Write("Enter your choice: ");
+    }
+
+    // Function to populate the dictionary
+    static void PopulateDictionary()
+    {
+        while (true)
+        {
+            Console.Write("Enter a key (or type 'stop' to finish): ");
+            string key = Console.ReadLine();
+            if (key.ToLower() == "stop")
+                break;
+
+            Console.Write($"Enter the value for {key}: ");
+            string value = Console.ReadLine();
+            dictionary[key] = value;
+            Console.WriteLine($"Added {key}: {value} to the dictionary.");
+        }
+    }
+
+    // Function to display dictionary contents
+    static void DisplayDictionaryContents()
+    {
+        if (dictionary.Count > 0)
+        {
+            Console.WriteLine("\nDictionary Contents:");
+            foreach (var kvp in dictionary)
+            {
+                Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("The dictionary is empty.");
+        }
+    }
+
+    // Function to remove a key from the dictionary
+    static void RemoveKey()
+    {
+        Console.Write("Enter the key you want to remove: ");
+        string key = Console.ReadLine();
+        if (dictionary.ContainsKey(key))
+        {
+            dictionary.Remove(key);
+            Console.WriteLine($"Removed key '{key}' from the dictionary.");
+        }
+        else
+        {
+            Console.WriteLine($"Key '{key}' not found in the dictionary.");
+        }
+    }
+
+    // Function to add a new key-value pair
+    static void AddNewKeyValue()
+    {
+        Console.Write("Enter a new key: ");
+        string key = Console.ReadLine();
+        if (dictionary.ContainsKey(key))
+        {
+            Console.WriteLine($"Key '{key}' already exists. Try another key.");
+        }
+        else
+        {
+            Console.Write($"Enter the value for {key}: ");
+            string value = Console.ReadLine();
+            dictionary.Add(key, value);
+            Console.WriteLine($"Added {key}: {value} to the dictionary.");
+        }
+    }
+
+    // Function to append a value to an existing key
+    static void AddValueToExistingKey()
+    {
+        Console.Write("Enter the key you want to update: ");
+        string key = Console.ReadLine();
+        if (dictionary.ContainsKey(key))
+        {
+            Console.Write($"Enter the new value to append for {key}: ");
+            string newValue = Console.ReadLine();
+            dictionary[key] = dictionary[key] + ", " + newValue;  // Assuming values are strings
+            Console.WriteLine($"Updated {key}: {dictionary[key]}");
+        }
+        else
+        {
+            Console.WriteLine($"Key '{key}' not found in the dictionary.");
+        }
+    }
+
+    // Function to sort and display the keys in the dictionary
+    static void SortKeys()
+    {
+        if (dictionary.Count > 0)
+        {
+            Console.WriteLine("\nSorted Dictionary by Keys:");
+            foreach (var key in new SortedDictionary<string, string>(dictionary))
+            {
+                Console.WriteLine($"{key.Key}: {key.Value}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("The dictionary is empty.");
+        }
+    }
+}
